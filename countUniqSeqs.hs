@@ -8,7 +8,7 @@ import qualified Data.Map as M
 import qualified Data.ByteString.Lazy as B
 import qualified Data.ByteString.Lazy.Char8 as BB
 import System.IO
-import System.Environment (getArgs)
+import System (getArgs)
 
 type SeqMap = M.Map SeqData Integer
 
@@ -22,14 +22,14 @@ countSeq s = do
                     
        put (M.insert seq count x)
 
-countSeqs :: FilePath -> StateT SeqMap IO ()
-countSeqs path = do
-  seqs <- liftIO $ readFasta path
+countSeqs :: Handle -> StateT SeqMap IO ()
+countSeqs handle = do
+  seqs <- liftIO $ hReadFasta handle
   mapM_ countSeq seqs
 
-countSeqsFile :: FilePath -> IO ()
-countSeqsFile path = do
-     counts <- execStateT (countSeqs path) M.empty
+countSeqsFile :: Handle -> IO ()
+countSeqsFile handle = do
+     counts <- execStateT (countSeqs handle) M.empty
 
      let lst = sortBy sortFun (M.toList counts)
                       where sortFun (_,a1) (_,a2) = compare a2 a1 
@@ -42,5 +42,8 @@ countSeqsFile path = do
 main = do
      args <- getArgs
      case args of
-          [path] -> countSeqsFile path
-          otherwise -> putStrLn "use ./CountFasta filename"
+          [path] -> do
+                 handle <- openFile path ReadMode
+                 countSeqsFile handle
+                 hClose handle
+          otherwise -> countSeqsFile stdin
