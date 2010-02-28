@@ -1,0 +1,29 @@
+Name:		fastautils
+Version:	0.1
+Author:		Leonardo Varuzza
+Maintainer:	varuzza@gmail.com
+Cabal-Version:	>= 1.2
+Build-type:	Simple
+
+Library
+  Build-Depends:   base,haskell98,bio >= 0.4
+  Exposed-Modules: Common
+
+
+Executable fastq2fasta
+  Main-is: fastq2fasta.hs
+  Other-Modules: Common
+
+Executable fastq2qual
+  Main-is: fastq2qual.hs
+  Other-Modules: Common
+
+Executable fastaStat
+  Main-is: fastaStat.hs
+  Other-Modules: Common
+  Build-Depends: statistics,uvector
+
+Executable countUniqSeqs
+  Main-is: countUniqSeqs.hs
+  Other-Modules: Common
+  Build-Depends: bytestring, containers, mtl
