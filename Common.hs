@@ -7,6 +7,11 @@ import System.IO
 import System
 import Control.Exception (bracket)
 
+-- Give two file handlers to the conversor function. The handlers are decided according to
+-- the cmd line arguments, the options are:
+--   [inputFile,outputFile] 
+--   [inputFile,stdout]
+--   [stdin,stdout]
 doFilter conversor = do
   args <- getArgs
   case args of
