@@ -27,3 +27,4 @@ Executable countUniqSeqs
   Main-is: countUniqSeqs.hs
   Other-Modules: Common
   Build-Depends: bytestring, containers, mtl
+

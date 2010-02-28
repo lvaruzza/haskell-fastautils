@@ -3,9 +3,11 @@ where
 
 import Bio.Sequence
 import System
+import System.IO
+import Common
 
-main = do
-  [inputFile,outputQual] <- getArgs
-  seqs <- (readFastQ inputFile)
-  writeQual outputQual seqs
+convert input output = do
+  seqs <- (hReadFastQ input)
+  hWriteQual output seqs
 
+main = doFilter convert
