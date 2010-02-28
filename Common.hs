@@ -5,19 +5,16 @@ module Common (
 
 import System.IO
 import System
+import Control.Exception (bracket)
 
 doFilter conversor = do
   args <- getArgs
   case args of
-    [inputFile,outputQual] -> do
-              input <- (openFile inputFile ReadMode) 
-              output <- (openFile outputQual WriteMode)
-              conversor input output
-              hClose input
-              hClose output
-    [inputFile] -> do
-              input <- (openFile inputFile ReadMode) 
-              conversor input stdout
+    [inputFile,outputQual] ->
+              bracket (openFile inputFile ReadMode) hClose $ \input -> 
+                  bracket (openFile outputQual WriteMode) hClose $ \output ->
+                      conversor input output
+    [inputFile] -> bracket (openFile inputFile ReadMode) hClose $ \input -> conversor input stdout
     otherwise -> conversor stdin stdout
 
 --- Apply f x y to snd of x and y
