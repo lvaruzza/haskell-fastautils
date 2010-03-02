@@ -28,3 +28,10 @@ Executable countUniqSeqs
   Other-Modules: Common
   Build-Depends: bytestring, containers, mtl
 
+
+
+Executable countUniqSeqsHash
+  Main-is: countUniqSeqsHash.hs
+  Other-Modules: Common
+  Build-Depends: bytestring, containers, mtl
+
