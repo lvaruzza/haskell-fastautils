@@ -31,13 +31,16 @@ countSeqs handle = do
 
 doCountSeq :: Handle -> Handle -> IO ()
 doCountSeq input output = do
-     counts <- execStateT (countSeqs input) M.empty
+  putStrLn "Counting"
+  counts <- execStateT (countSeqs input) M.empty
 
-     let lst = sortBy (applySnd2 compare) (M.toList counts)
+  putStrLn "Sorting"
 
-     hPutStr output $ foldl printEntry "" lst
-         where
-           printEntry buff (k, a) = buff ++ k ++ "\t" ++ 
-                                    (show a) ++ "\n"
+  let lst = sortBy (applySnd2 compare) (M.toList counts)
+
+  putStrLn "Printing"
+
+  forM_ lst $ \(k,a) -> do
+    hPutStr output $ k ++ "\t" ++ (show a) ++ "\n"
                         
 main = doFilter doCountSeq
