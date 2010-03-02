@@ -3,6 +3,6 @@
 #ghc --make fastq2qual.hs
 #ghc --make fastq2fasta.hs
 
-./Setup.hs configure --user --enable-library-profiling \
+./Setup.hs configure --user  \
   --ghc-option="-auto-all" \
   --ghc-option="-prof" && ./Setup.hs build
